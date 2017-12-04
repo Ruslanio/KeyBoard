@@ -1,5 +1,8 @@
 package com.example.ruslanio.keyboard;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +19,10 @@ public class MainActivity extends AppCompatActivity{
     private TextView mResult;
 
     private Button mGetBb;
+    private Button mStartService;
 
     private DBHelper mDBHelper;
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -27,6 +32,12 @@ public class MainActivity extends AppCompatActivity{
 
         mGetBb = (Button) findViewById(R.id.btn_get_db);
         mResult = (TextView) findViewById(R.id.result);
+        mStartService = (Button) findViewById(R.id.btn_start_service);
+
+        mStartService.setOnClickListener(btn -> {
+            System.out.println("onReceive()");
+            startService(new Intent(MainActivity.this,TransmitterService.class));
+        });
 
         mGetBb.setOnClickListener(btn -> {
             SQLiteDatabase db = mDBHelper.getReadableDatabase();
@@ -50,6 +61,8 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+
+
     }
 
     @Override
@@ -58,5 +71,12 @@ public class MainActivity extends AppCompatActivity{
         mDBHelper.close();
     }
 
+    public class MainReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            System.out.println("onReceive()");
+            startService(new Intent(MainActivity.this,TransmitterService.class));
+        }
+    }
 
 }

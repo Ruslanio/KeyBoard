@@ -1,11 +1,13 @@
 package com.example.ruslanio.keyboard.network;
 
 import com.example.ruslanio.keyboard.network.body.AddDataRequestBody;
+import com.example.ruslanio.keyboard.network.pojo.EmptyResult;
 import com.example.ruslanio.keyboard.network.pojo.ServerResponce;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -40,7 +42,7 @@ public class ApiManager {
         return mApiInterface.getData();
     }
 
-    public Response postData(AddDataRequestBody body){
+    public Call<EmptyResult> postData(AddDataRequestBody body){
         return mApiInterface.postData(body);
     }
 
