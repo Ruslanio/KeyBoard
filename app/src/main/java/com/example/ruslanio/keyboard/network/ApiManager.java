@@ -46,4 +46,8 @@ public class ApiManager {
         return mApiInterface.postData(body);
     }
 
+    public Call<EmptyResult> postData(String text){
+        return mApiInterface.postData(text);
+    }
+
 }

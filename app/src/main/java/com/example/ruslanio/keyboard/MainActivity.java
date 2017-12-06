@@ -12,6 +12,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ruslanio.keyboard.database.helper.DBHelper;
+import com.example.ruslanio.keyboard.network.ApiManager;
+import com.example.ruslanio.keyboard.network.pojo.Result;
+import com.example.ruslanio.keyboard.network.pojo.ServerResponce;
+
+import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class MainActivity extends AppCompatActivity{
@@ -20,6 +30,9 @@ public class MainActivity extends AppCompatActivity{
 
     private Button mGetBb;
     private Button mStartService;
+    private Button mGetRecords;
+    private Button mNext;
+    private ApiManager mApiManager;
 
     private DBHelper mDBHelper;
 
@@ -29,14 +42,22 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mDBHelper = new DBHelper(getApplicationContext());
+        mApiManager = ApiManager.getInstance();
 
         mGetBb = (Button) findViewById(R.id.btn_get_db);
         mResult = (TextView) findViewById(R.id.result);
         mStartService = (Button) findViewById(R.id.btn_start_service);
+        mGetRecords = (Button) findViewById(R.id.btn_get_records);
+        mNext = (Button) findViewById(R.id.btn_next);
 
         mStartService.setOnClickListener(btn -> {
             System.out.println("onReceive()");
             startService(new Intent(MainActivity.this,TransmitterService.class));
+        });
+
+        mNext.setOnClickListener(btn -> {
+            Intent intent = new Intent(MainActivity.this,ChartActivity.class);
+            startActivity(intent);
         });
 
         mGetBb.setOnClickListener(btn -> {
@@ -61,6 +82,19 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        mGetRecords.setOnClickListener(btn -> {
+            mApiManager.getData()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(serverResponce -> {
+                        List<Result> results = serverResponce.getResult();
+                        StringBuilder builder = new StringBuilder();
+                        for (Result result: results){
+                            builder.append("value : ").append(result.getValue()).append("\n")
+                                    .append("date : ").append(result.getDate()).append("\n");
+                        }
+                        mResult.setText(builder.toString());
+                    });
+        });
 
 
     }

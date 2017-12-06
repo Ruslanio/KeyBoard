@@ -74,8 +74,8 @@ public class TransmitterService extends IntentService {
                         contentValues.put(DBHelper.TextEntityTable.TEXT_ENTITY_STATUS, DBHelper.STATUS_SERVER);
 
 
-                        AddDataRequestBody requestBody = new AddDataRequestBody(currentText);
-                        Call<EmptyResult> call = mApiManager.postData(requestBody);
+//                        AddDataRequestBody requestBody = new AddDataRequestBody(currentText);
+                        Call<EmptyResult> call = mApiManager.postData(currentText);
                         Response response = call.execute();
                         if (response.isSuccessful()) {
 

@@ -21,6 +21,24 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"/>
 
+
+    <Button
+        android:text="get records"
+        android:id="@+id/btn_get_records"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_toLeftOf="@id/btn_start_service"
+        android:layout_toRightOf="@id/btn_get_db"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_next"
+        android:text="NEXT"
+        android:layout_alignParentRight="true"
+        android:layout_above="@id/btn_get_db"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <TextView
         android:id="@+id/result"
         android:layout_width="match_parent"
