@@ -15,6 +15,11 @@ public class Result {
     @Expose
     private Double value;
 
+    public Result(String date, Double value) {
+        this.date = date;
+        this.value = value;
+    }
+
     public String getDate() {
         return date;
     }

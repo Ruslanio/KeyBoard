@@ -1,6 +1,7 @@
 package com.example.ruslanio.keyboard;
 
 import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -50,7 +51,6 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
         mKeyBoardView.setOnKeyboardActionListener(this);
 
         return mKeyBoardView;
-
     }
 
     @Override
