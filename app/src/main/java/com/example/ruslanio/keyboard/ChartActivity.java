@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.graphics.PathEffect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.annimon.stream.Stream;
+import com.example.ruslanio.keyboard.network.ApiManager;
 import com.example.ruslanio.keyboard.network.pojo.Result;
 
 import java.text.ParseException;
@@ -19,6 +21,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import lecho.lib.hellocharts.formatter.LineChartValueFormatter;
 import lecho.lib.hellocharts.formatter.SimpleLineChartValueFormatter;
 import lecho.lib.hellocharts.model.Axis;
@@ -30,6 +33,7 @@ import lecho.lib.hellocharts.view.LineChartView;
 
 public class ChartActivity extends AppCompatActivity {
     private LineChartView mLineChartView;
+    private ApiManager mApiManager;
 
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT;
     private static final SimpleDateFormat SIMPLE_DATE_VIEW_FORMAT;
@@ -45,6 +49,22 @@ public class ChartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart);
+
+        mApiManager = ApiManager.getInstance();
+
+        mApiManager.getData()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(serverResponce -> {
+                    List<Result> results = serverResponce.getResult();
+                    StringBuilder builder = new StringBuilder();
+                    for (Result result: results){
+                        builder.append("value : ").append(result.getValue()).append("\n")
+                                .append("date : ").append(result.getDate()).append("\n");
+                    }
+                },throwable -> {
+                    Toast.makeText(ChartActivity.this,"Connection problems!",Toast.LENGTH_SHORT).show();
+                    throwable.printStackTrace();
+                });
 
         mLineChartView = (LineChartView) findViewById(R.id.cv_main_chart);
         List<Result> results = new ArrayList<>();
@@ -86,7 +106,10 @@ public class ChartActivity extends AppCompatActivity {
                 values.add(new PointValue(dateValue, value));
                 AxisValue axisValueX = new AxisValue(dateValue);
                 try {
-                    axisValueX.setLabel(SIMPLE_DATE_VIEW_FORMAT.format(SIMPLE_DATE_FORMAT.parse(result.getDate())));
+                    //06.12.2017 12.01.12
+                    String label = SIMPLE_DATE_VIEW_FORMAT.format(SIMPLE_DATE_FORMAT.parse(result.getDate()));
+                    label = label.substring(10,15);
+                    axisValueX.setLabel(label);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
