@@ -7,9 +7,21 @@ package com.example.ruslanio.keyboard.network.body;
 public class AddDataRequestBody  {
 
     private String text;
+    private String date;
 
-    public AddDataRequestBody(String text) {
+
+
+    public AddDataRequestBody(String text, String date) {
         this.text = text;
+        this.date = date;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getText() {

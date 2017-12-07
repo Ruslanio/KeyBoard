@@ -154,11 +154,11 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
     }
 
     private void saveString() {
-        if (!mSentenceBuilder.toString().isEmpty()) {
+        if (!mSentenceBuilder.toString().isEmpty() && mSentenceBuilder.length() != 0 && !mSentenceBuilder.toString().equals(" ")) {
             Calendar calendar = Calendar.getInstance();
             String date = DateManager.parseDate(calendar).toString();
 
-            String sentence = mSentenceBuilder.toString();
+            String sentence = mSentenceBuilder.toString().trim();
             mSentenceBuilder = new StringBuilder();
 
             ContentValues contentValues = new ContentValues();

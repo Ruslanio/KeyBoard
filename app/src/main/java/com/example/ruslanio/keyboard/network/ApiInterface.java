@@ -19,10 +19,10 @@ import retrofit2.http.Query;
 public interface ApiInterface {
 
     @POST("sentiment/send")
-    Call<EmptyResult> postData(@Body AddDataRequestBody body);
+    Call<Void> postData(@Body AddDataRequestBody body);
 
     @POST("sentiment/send")
-    Call<EmptyResult> postData(@Query("text") String text);
+    Call<Void> postData(@Query("text") String text);
 
     @GET("records")
     Observable<ServerResponce> getData();

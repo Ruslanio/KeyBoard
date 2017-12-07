@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PathEffect;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -42,8 +44,8 @@ import lecho.lib.hellocharts.view.LineChartView;
 
 public class ChartActivity extends AppCompatActivity {
 
-    private static final String TITLE_YESTERDAY = "Yesterday";
-    private static final String TITLE_TODAY = "Today";
+    private static final String TITLE_YESTERDAY = "YESTERDAY";
+    private static final String TITLE_TODAY = "TODAY";
 
     private ApiManager mApiManager;
     private DBHelper mDBHelper;
@@ -57,31 +59,42 @@ public class ChartActivity extends AppCompatActivity {
         mDBHelper = new DBHelper(getApplicationContext());
         mApiManager = ApiManager.getInstance();
         mViewPager = (ViewPager) findViewById(R.id.vp_charts);
-        mViewPager.setAdapter(new ChartPagerAdapter(getSupportFragmentManager()));
-
         getData();
     }
 
-    private void getData(){
+    private void getData() {
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
 
-        db.delete(DBHelper.EMOTION_ENTITY_TABLE_NAME,null,null);
 
         mApiManager.getData()
                 .subscribe(serverResponce -> {
+                    db.delete(DBHelper.EMOTION_ENTITY_TABLE_NAME, null, null);
                     List<Result> results = serverResponce.getResult();
-                    for (Result result: results){
+                    for (Result result : results) {
+                        double value = 0;
+                        if (result.getValue().equals("NaN")) {
+                            continue;
+                        } else {
+                            try {
+                                value = Double.valueOf(result.getValue());
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
                         ContentValues cv = new ContentValues();
-                        cv.put(DBHelper.EmotionEntityTable.EMOTION_VALUE,result.getValue());
-                        cv.put(DBHelper.EmotionEntityTable.EMOTION_DATE ,result.getDate());
-                        db.insert(DBHelper.EMOTION_ENTITY_TABLE_NAME,null, cv);
+                        cv.put(DBHelper.EmotionEntityTable.EMOTION_VALUE, value);
+                        cv.put(DBHelper.EmotionEntityTable.EMOTION_DATE, result.getDate());
+                        db.insert(DBHelper.EMOTION_ENTITY_TABLE_NAME, null, cv);
                     }
-                },throwable -> {
-                    Toast.makeText(ChartActivity.this,"Connection problems!",Toast.LENGTH_SHORT).show();
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        mViewPager.setAdapter(new ChartPagerAdapter(getSupportFragmentManager()));
+                    });
+
+                }, throwable -> {
+                    Toast.makeText(ChartActivity.this, "Connection problems!", Toast.LENGTH_SHORT).show();
                     throwable.printStackTrace();
                 });
     }
-
 
 
     @Override

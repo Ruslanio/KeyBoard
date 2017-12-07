@@ -3,9 +3,11 @@ package com.example.ruslanio.keyboard;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +43,8 @@ public class ChartFragment extends Fragment {
     private static final int YESTERDAY = 0;
     private static final int TODAY = 1;
 
+    private View mIsThereData;
+
     private DBHelper mDBHelper;
     private int pageNumber;
     private LineChartView mLineChartView;
@@ -73,6 +77,8 @@ public class ChartFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mLineChartView = (LineChartView) getView().findViewById(R.id.main_line_chart);
+        mIsThereData = getView().findViewById(R.id.is_there_data);
+
 
         List<Result> resultList = new ArrayList<>();
         SQLiteDatabase db = mDBHelper.getReadableDatabase();
@@ -91,6 +97,7 @@ public class ChartFragment extends Fragment {
         } else {
             Toast.makeText(getContext(), "no data", Toast.LENGTH_SHORT).show();
         }
+
 
         setUpChart(resultList);
     }
@@ -113,6 +120,14 @@ public class ChartFragment extends Fragment {
                             preparedData.add(result);
                     }
                     break;
+            }
+
+            if (preparedData.size() == 0){
+                mIsThereData.setVisibility(View.VISIBLE);
+                mLineChartView.setVisibility(View.GONE);
+            } else {
+                mIsThereData.setVisibility(View.GONE);
+                mLineChartView.setVisibility(View.VISIBLE);
             }
 
             List<PointValue> values = new ArrayList<>();
@@ -165,19 +180,26 @@ public class ChartFragment extends Fragment {
             axisY.setHasLines(true);
             axisY.setHasSeparationLine(true);
             axisY.setName("value");
+            axisY.setInside(false);
 
             Line line = new Line(values);
             line.setColor(getResources().getColor(R.color.colorAccent));
             line.setFilled(true);
 
+            List<PointValue> pointValues=new ArrayList<>();
+            pointValues.add(new PointValue(0,1));
+            pointValues.add(new PointValue(0,-1));
+            Line lineTransparent = new Line(pointValues);
+            lineTransparent.setColor(Color.TRANSPARENT);
+
             List<Line> lines = new ArrayList<>();
             lines.add(line);
+            lines.add(lineTransparent);
 
             LineChartData data = new LineChartData();
             data.setLines(lines);
             data.setAxisXBottom(axisX);
             data.setAxisYLeft(axisY);
-
             mLineChartView.setLineChartData(data);
         }
 

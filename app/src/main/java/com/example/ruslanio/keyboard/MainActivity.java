@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mGetRecords;
     private Button mNext;
     private ApiManager mApiManager;
+    private boolean mIsServiceStarted;
 
     private Button mCharts;
 
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         mLogOut = (Button) findViewById(R.id.log_out);
 
         mLogOut.setOnClickListener(btn -> {
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         });
 
@@ -116,12 +117,15 @@ public class MainActivity extends AppCompatActivity {
 //                    });
 //        });
 
-
+        if (!mIsServiceStarted) {
+            startService(new Intent(MainActivity.this, TransmitterService.class));
+            mIsServiceStarted = true;
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_action , menu);
+        getMenuInflater().inflate(R.menu.menu_action, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -146,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             System.out.println("onReceive()");
-            startService(new Intent(MainActivity.this, TransmitterService.class));
         }
     }
 

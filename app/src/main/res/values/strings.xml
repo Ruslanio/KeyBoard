@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KeyBoard</string>
+    <string name="app_name">Mood</string>
     <string name="simple_ime">keyboard</string>
     <string name="subtype_en_US">English_US</string>
     <string name="title_activity_login">Sign in</string>

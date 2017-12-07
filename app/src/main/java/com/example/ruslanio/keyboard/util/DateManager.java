@@ -139,8 +139,33 @@ public class DateManager {
 
         @Override
         public String toString() {
-            String result = day + "." + month + " " + hour + ":" + minute;
-            return result;
+
+            String day;
+            if (this.day < 10)
+                day = "0" + this.day;
+            else
+                day = this.day + "";
+
+            String month;
+            if (this.month < 10)
+                month = "0" + this.month;
+            else
+                month = this.month + "";
+
+            String hour;
+            if (this.hour < 10)
+                hour = "0" + this.hour;
+            else
+                hour = this.hour + "";
+
+            String minute;
+            if (this.minute < 10)
+                minute = "0" + this.minute;
+            else
+                minute = this.minute + "";
+
+
+            return day + "." + month + " " + hour + ":" + minute;
         }
     }
 }

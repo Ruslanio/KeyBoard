@@ -42,11 +42,11 @@ public class ApiManager {
         return mApiInterface.getData();
     }
 
-    public Call<EmptyResult> postData(AddDataRequestBody body){
+    public Call<Void> postData(AddDataRequestBody body){
         return mApiInterface.postData(body);
     }
 
-    public Call<EmptyResult> postData(String text){
+    public Call<Void> postData(String text){
         return mApiInterface.postData(text);
     }
 
