@@ -18,11 +18,18 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "main_db";
 
     public static final String TEXT_ENTITY_TABLE_NAME = "table_text_entity";
+    public static final String EMOTION_ENTITY_TABLE_NAME = "table_emotion";
 
     public static class TextEntityTable{
         public static final String TEXT_ENTITY_ID = "text_entity_id";
         public static final String TEXT_ENTITY_TEXT = "text_entity_text";
         public static final String TEXT_ENTITY_STATUS = "text_entity_status";
+    }
+
+    public static class EmotionEntityTable{
+        public static final String EMOTION_ID = "emotion_id";
+        public static final String EMOTION_VALUE = "emotion_value";
+        public static final String EMOTION_DATE = "emotion_date";
     }
 
     public DBHelper(Context context){
@@ -34,6 +41,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 + TextEntityTable.TEXT_ENTITY_ID  + " integer primary key autoincrement,"
                 + TextEntityTable.TEXT_ENTITY_TEXT + " text, "
                 + TextEntityTable.TEXT_ENTITY_STATUS + " integer);");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + EMOTION_ENTITY_TABLE_NAME + " ("
+                + EmotionEntityTable.EMOTION_ID  + " integer primary key autoincrement,"
+                + EmotionEntityTable.EMOTION_VALUE + " double, "
+                + EmotionEntityTable.EMOTION_DATE + " text);");
     }
 
     @Override
