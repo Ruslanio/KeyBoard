@@ -24,6 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
         public static final String TEXT_ENTITY_ID = "text_entity_id";
         public static final String TEXT_ENTITY_TEXT = "text_entity_text";
         public static final String TEXT_ENTITY_STATUS = "text_entity_status";
+        public static final String TEXT_ENTITY_DATE = "text_entity_date";
     }
 
     public static class EmotionEntityTable{
@@ -40,6 +41,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TEXT_ENTITY_TABLE_NAME + " ("
                 + TextEntityTable.TEXT_ENTITY_ID  + " integer primary key autoincrement,"
                 + TextEntityTable.TEXT_ENTITY_TEXT + " text, "
+                + TextEntityTable.TEXT_ENTITY_DATE + " text, "
                 + TextEntityTable.TEXT_ENTITY_STATUS + " integer);");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + EMOTION_ENTITY_TABLE_NAME + " ("

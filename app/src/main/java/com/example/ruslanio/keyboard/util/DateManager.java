@@ -10,12 +10,12 @@ import java.util.TimeZone;
 public class DateManager {
     //01 34 67 910
     //dd.mm hh.mm
-    public static DateObject parseDate(String date){
-        String day = date.substring(0,2);
-        String month = date.substring(3,5);
+    public static DateObject parseDate(String date) {
+        String day = date.substring(0, 2);
+        String month = date.substring(3, 5);
 
-        String hour = date.substring(6,8);
-        String min = date.substring(9,11);
+        String hour = date.substring(6, 8);
+        String min = date.substring(9, 11);
 
         DateObject dateObject = new DateObject();
         dateObject.setDay(Integer.parseInt(day));
@@ -25,7 +25,23 @@ public class DateManager {
         return dateObject;
     }
 
-    public static boolean isToday(String date){
+    public static DateObject parseDate(Calendar calendar) {
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int min = calendar.get(Calendar.MINUTE);
+
+        DateObject dateObject = new DateObject();
+        dateObject.setDay(day);
+        dateObject.setMonth(month + 1);
+        dateObject.setHour(hour);
+        dateObject.setMinute(min);
+        return dateObject;
+
+    }
+
+    public static boolean isToday(String date) {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         DateObject dateObject = parseDate(date);
@@ -35,7 +51,7 @@ public class DateManager {
             return false;
     }
 
-    public static boolean isYesterday(String date){
+    public static boolean isYesterday(String date) {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         DateObject dateObject = parseDate(date);
@@ -45,7 +61,7 @@ public class DateManager {
             return false;
     }
 
-    public static int compareDate(String first, String second){
+    public static int compareDate(String first, String second) {
         DateObject firstObject = parseDate(first);
         DateObject secondObject = parseDate(second);
 
@@ -72,7 +88,7 @@ public class DateManager {
         return 0;
     }
 
-    public static class DateObject{
+    public static class DateObject {
         private int day = 0;
         private int month = 0;
 
@@ -119,6 +135,12 @@ public class DateManager {
 
         public void setMinute(int minute) {
             this.minute = minute;
+        }
+
+        @Override
+        public String toString() {
+            String result = day + "." + month + " " + hour + ":" + minute;
+            return result;
         }
     }
 }

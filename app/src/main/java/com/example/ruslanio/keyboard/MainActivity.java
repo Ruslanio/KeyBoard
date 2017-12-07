@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,10 +26,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private TextView mResult;
-
+    private View mMain;
     private Button mGetBb;
     private Button mStartService;
     private Button mGetRecords;
@@ -53,8 +55,8 @@ public class MainActivity extends AppCompatActivity{
             startActivity(intent);
         });
 
-//        mGetBb = (Button) findViewById(R.id.btn_get_db);
-//        mResult = (TextView) findViewById(R.id.result);
+        mGetBb = (Button) findViewById(R.id.btn_get_db);
+        mResult = (TextView) findViewById(R.id.result);
 //        mStartService = (Button) findViewById(R.id.btn_start_service);
 //        mGetRecords = (Button) findViewById(R.id.btn_get_records);
 //        mNext = (Button) findViewById(R.id.btn_next);
@@ -69,27 +71,29 @@ public class MainActivity extends AppCompatActivity{
 //            startActivity(intent);
 //        });
 //
-//        mGetBb.setOnClickListener(btn -> {
-//            SQLiteDatabase db = mDBHelper.getReadableDatabase();
-//            Cursor cursor = db.query(DBHelper.TEXT_ENTITY_TABLE_NAME, null,null,null,null,null,null);
-//            if (cursor.moveToFirst()){
-//                int id = cursor.getColumnIndex(DBHelper.TextEntityTable.TEXT_ENTITY_ID);
-//                int text = cursor.getColumnIndex(DBHelper.TextEntityTable.TEXT_ENTITY_TEXT);
-//                int status = cursor.getColumnIndex(DBHelper.TextEntityTable.TEXT_ENTITY_STATUS);
-//
-//                StringBuilder builder = new StringBuilder();
-//
-//                do {
-//                    builder.append("ID = ").append(cursor.getInt(id)).append("\n")
-//                            .append("TEXT = ").append(cursor.getString(text)).append("\n")
-//                            .append("STATUS = ").append(cursor.getInt(status)).append("\n");
-//                } while (cursor.moveToNext());
-//
-//                mResult.setText(builder.toString());
-//            } else {
-//                Toast.makeText(this,"no data",Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        mGetBb.setOnClickListener(btn -> {
+            SQLiteDatabase db = mDBHelper.getReadableDatabase();
+            Cursor cursor = db.query(DBHelper.TEXT_ENTITY_TABLE_NAME, null, null, null, null, null, null);
+            if (cursor.moveToFirst()) {
+                int id = cursor.getColumnIndex(DBHelper.TextEntityTable.TEXT_ENTITY_ID);
+                int text = cursor.getColumnIndex(DBHelper.TextEntityTable.TEXT_ENTITY_TEXT);
+                int status = cursor.getColumnIndex(DBHelper.TextEntityTable.TEXT_ENTITY_STATUS);
+                int date = cursor.getColumnIndex(DBHelper.TextEntityTable.TEXT_ENTITY_DATE);
+
+                StringBuilder builder = new StringBuilder();
+
+                do {
+                    builder.append("ID = ").append(cursor.getInt(id)).append("\n")
+                            .append("TEXT = ").append(cursor.getString(text)).append("\n")
+                            .append("DATE = ").append(cursor.getString(date)).append("\n")
+                            .append("STATUS = ").append(cursor.getInt(status)).append("\n");
+                } while (cursor.moveToNext());
+
+                mResult.setText(builder.toString());
+            } else {
+                Toast.makeText(this, "no data", Toast.LENGTH_SHORT).show();
+            }
+        });
 //
 //        mGetRecords.setOnClickListener(btn -> {
 //            mApiManager.getData()
@@ -118,7 +122,7 @@ public class MainActivity extends AppCompatActivity{
         @Override
         public void onReceive(Context context, Intent intent) {
             System.out.println("onReceive()");
-            startService(new Intent(MainActivity.this,TransmitterService.class));
+            startService(new Intent(MainActivity.this, TransmitterService.class));
         }
     }
 
