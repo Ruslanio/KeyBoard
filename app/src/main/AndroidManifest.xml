@@ -37,7 +37,8 @@
 
         <service android:name=".TransmitterService"/>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -46,6 +47,7 @@
         </activity>
         <activity android:name=".ChartActivity">
         </activity>
+        <activity android:name=".RegistrationActivity"/>
     </application>
 
 </manifest>
