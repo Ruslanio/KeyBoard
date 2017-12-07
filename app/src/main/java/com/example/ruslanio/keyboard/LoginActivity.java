@@ -30,8 +30,8 @@ public class LoginActivity extends AppCompatActivity {
         mPassword= (TextInputEditText) findViewById(R.id.password);
 
         mSignIn.setOnClickListener(v -> {
-            if("admin".equals(mLogin.getText().toString().trim())
-                    && "admin".equals(mPassword.getText().toString().trim())){
+            if("1234".equals(mLogin.getText().toString().trim())
+                    && "1234".equals(mPassword.getText().toString().trim())){
                 startActivity(new Intent(this,MainActivity.class));
                 finish();
             }else {

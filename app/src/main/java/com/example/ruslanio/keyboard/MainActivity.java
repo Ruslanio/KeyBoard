@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity{
     private Button mNext;
     private ApiManager mApiManager;
 
+    private Button mCharts;
+
     private DBHelper mDBHelper;
 
 
@@ -44,57 +46,64 @@ public class MainActivity extends AppCompatActivity{
         mDBHelper = new DBHelper(getApplicationContext());
         mApiManager = ApiManager.getInstance();
 
-        mGetBb = (Button) findViewById(R.id.btn_get_db);
-        mResult = (TextView) findViewById(R.id.result);
-        mStartService = (Button) findViewById(R.id.btn_start_service);
-        mGetRecords = (Button) findViewById(R.id.btn_get_records);
-        mNext = (Button) findViewById(R.id.btn_next);
+        mCharts = (Button) findViewById(R.id.charts);
 
-        mStartService.setOnClickListener(btn -> {
-            System.out.println("onReceive()");
-            startService(new Intent(MainActivity.this,TransmitterService.class));
-        });
-
-        mNext.setOnClickListener(btn -> {
-            Intent intent = new Intent(MainActivity.this,ChartActivity.class);
+        mCharts.setOnClickListener(btn -> {
+            Intent intent = new Intent(MainActivity.this, ChartActivity.class);
             startActivity(intent);
         });
 
-        mGetBb.setOnClickListener(btn -> {
-            SQLiteDatabase db = mDBHelper.getReadableDatabase();
-            Cursor cursor = db.query(DBHelper.TEXT_ENTITY_TABLE_NAME, null,null,null,null,null,null);
-            if (cursor.moveToFirst()){
-                int id = cursor.getColumnIndex(DBHelper.TextEntityTable.TEXT_ENTITY_ID);
-                int text = cursor.getColumnIndex(DBHelper.TextEntityTable.TEXT_ENTITY_TEXT);
-                int status = cursor.getColumnIndex(DBHelper.TextEntityTable.TEXT_ENTITY_STATUS);
+//        mGetBb = (Button) findViewById(R.id.btn_get_db);
+//        mResult = (TextView) findViewById(R.id.result);
+//        mStartService = (Button) findViewById(R.id.btn_start_service);
+//        mGetRecords = (Button) findViewById(R.id.btn_get_records);
+//        mNext = (Button) findViewById(R.id.btn_next);
 
-                StringBuilder builder = new StringBuilder();
-
-                do {
-                    builder.append("ID = ").append(cursor.getInt(id)).append("\n")
-                            .append("TEXT = ").append(cursor.getString(text)).append("\n")
-                            .append("STATUS = ").append(cursor.getInt(status)).append("\n");
-                } while (cursor.moveToNext());
-
-                mResult.setText(builder.toString());
-            } else {
-                Toast.makeText(this,"no data",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        mGetRecords.setOnClickListener(btn -> {
-            mApiManager.getData()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(serverResponce -> {
-                        List<Result> results = serverResponce.getResult();
-                        StringBuilder builder = new StringBuilder();
-                        for (Result result: results){
-                            builder.append("value : ").append(result.getValue()).append("\n")
-                                    .append("date : ").append(result.getDate()).append("\n");
-                        }
-                        mResult.setText(builder.toString());
-                    });
-        });
+//        mStartService.setOnClickListener(btn -> {
+//            System.out.println("onReceive()");
+//            startService(new Intent(MainActivity.this,TransmitterService.class));
+//        });
+//
+//        mNext.setOnClickListener(btn -> {
+//            Intent intent = new Intent(MainActivity.this,ChartActivity.class);
+//            startActivity(intent);
+//        });
+//
+//        mGetBb.setOnClickListener(btn -> {
+//            SQLiteDatabase db = mDBHelper.getReadableDatabase();
+//            Cursor cursor = db.query(DBHelper.TEXT_ENTITY_TABLE_NAME, null,null,null,null,null,null);
+//            if (cursor.moveToFirst()){
+//                int id = cursor.getColumnIndex(DBHelper.TextEntityTable.TEXT_ENTITY_ID);
+//                int text = cursor.getColumnIndex(DBHelper.TextEntityTable.TEXT_ENTITY_TEXT);
+//                int status = cursor.getColumnIndex(DBHelper.TextEntityTable.TEXT_ENTITY_STATUS);
+//
+//                StringBuilder builder = new StringBuilder();
+//
+//                do {
+//                    builder.append("ID = ").append(cursor.getInt(id)).append("\n")
+//                            .append("TEXT = ").append(cursor.getString(text)).append("\n")
+//                            .append("STATUS = ").append(cursor.getInt(status)).append("\n");
+//                } while (cursor.moveToNext());
+//
+//                mResult.setText(builder.toString());
+//            } else {
+//                Toast.makeText(this,"no data",Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        mGetRecords.setOnClickListener(btn -> {
+//            mApiManager.getData()
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(serverResponce -> {
+//                        List<Result> results = serverResponce.getResult();
+//                        StringBuilder builder = new StringBuilder();
+//                        for (Result result: results){
+//                            builder.append("value : ").append(result.getValue()).append("\n")
+//                                    .append("date : ").append(result.getDate()).append("\n");
+//                        }
+//                        mResult.setText(builder.toString());
+//                    });
+//        });
 
 
     }

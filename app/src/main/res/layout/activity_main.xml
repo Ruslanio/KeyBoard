@@ -1,49 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+              android:orientation="vertical"
                 tools:context="com.example.ruslanio.keyboard.MainActivity">
 
-    <Button
-        android:text="Get db"
-        android:id="@+id/btn_get_db"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
 
-    <Button
-        android:text="start service"
-        android:id="@+id/btn_start_service"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
-
-
-    <Button
-        android:text="get records"
-        android:id="@+id/btn_get_records"
-        android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_toLeftOf="@id/btn_start_service"
-        android:layout_toRightOf="@id/btn_get_db"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/btn_next"
-        android:text="NEXT"
+    <ImageButton
+        android:layout_margin="10dp"
+        android:id="@+id/settings"
+        android:background="@color/transparent"
+        android:src="@drawable/ic_settings_black_24dp"
         android:layout_alignParentRight="true"
-        android:layout_above="@id/btn_get_db"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/result"
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textSize="15sp"/>
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/user_avatar"
+            android:layout_above="@id/username"
+            android:src="@mipmap/ic_launcher_round"
+            android:layout_marginBottom="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Admin"
+            android:textSize="25sp"/>
+
+        <Button
+            android:id="@+id/charts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/username"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="charts"/>
+    </LinearLayout>
+
+
+</LinearLayout>

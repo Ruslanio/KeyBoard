@@ -122,14 +122,16 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
     }
 
     private void saveString() {
-        String data = mStringBuilder.toString();
-        mStringBuilder = new StringBuilder();
+        if (!mStringBuilder.toString().equals("")) {
+            String data = mStringBuilder.toString();
+            mStringBuilder = new StringBuilder();
 
-        ContentValues contentValues = new ContentValues();
+            ContentValues contentValues = new ContentValues();
 
-        contentValues.put(DBHelper.TextEntityTable.TEXT_ENTITY_TEXT, data);
-        contentValues.put(DBHelper.TextEntityTable.TEXT_ENTITY_STATUS, DBHelper.STATUS_CLIENT);
-        mDBHelper.getWritableDatabase().insert(DBHelper.TEXT_ENTITY_TABLE_NAME,null,contentValues);
+            contentValues.put(DBHelper.TextEntityTable.TEXT_ENTITY_TEXT, data);
+            contentValues.put(DBHelper.TextEntityTable.TEXT_ENTITY_STATUS, DBHelper.STATUS_CLIENT);
+            mDBHelper.getWritableDatabase().insert(DBHelper.TEXT_ENTITY_TABLE_NAME, null, contentValues);
+        }
     }
 
     @Override

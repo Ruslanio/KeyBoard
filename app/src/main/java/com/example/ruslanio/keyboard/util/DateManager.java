@@ -39,7 +39,7 @@ public class DateManager {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         DateObject dateObject = parseDate(date);
-        if (dateObject.getDay()-1  == day)
+        if (dateObject.getDay() == day - 1)
             return true;
         else
             return false;

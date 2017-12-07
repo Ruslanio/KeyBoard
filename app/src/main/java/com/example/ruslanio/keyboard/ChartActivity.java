@@ -109,9 +109,9 @@ public class ChartActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             if (position == 0)
-                return TITLE_TODAY;
-            else
                 return TITLE_YESTERDAY;
+            else
+                return TITLE_TODAY;
         }
     }
 }
