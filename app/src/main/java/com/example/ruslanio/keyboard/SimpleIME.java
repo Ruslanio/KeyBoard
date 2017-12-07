@@ -154,7 +154,7 @@ public class SimpleIME extends InputMethodService implements KeyboardView.OnKeyb
     }
 
     private void saveString() {
-        if (!mSentenceBuilder.toString().equals("")) {
+        if (!mSentenceBuilder.toString().isEmpty()) {
             Calendar calendar = Calendar.getInstance();
             String date = DateManager.parseDate(calendar).toString();
 

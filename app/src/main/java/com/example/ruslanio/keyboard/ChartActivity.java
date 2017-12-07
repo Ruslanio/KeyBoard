@@ -42,8 +42,8 @@ import lecho.lib.hellocharts.view.LineChartView;
 
 public class ChartActivity extends AppCompatActivity {
 
-    private static final String TITLE_YESTERDAY = "yesterday";
-    private static final String TITLE_TODAY = "today";
+    private static final String TITLE_YESTERDAY = "Yesterday";
+    private static final String TITLE_TODAY = "Today";
 
     private ApiManager mApiManager;
     private DBHelper mDBHelper;
@@ -65,7 +65,7 @@ public class ChartActivity extends AppCompatActivity {
     private void getData(){
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
 
-        db.delete(DBHelper.TEXT_ENTITY_TABLE_NAME,null,null);
+        db.delete(DBHelper.EMOTION_ENTITY_TABLE_NAME,null,null);
 
         mApiManager.getData()
                 .subscribe(serverResponce -> {

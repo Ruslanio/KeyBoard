@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,9 +30,9 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mResult;
     private View mMain;
     private Button mGetBb;
+    private Button mLogOut;
     private Button mStartService;
     private Button mGetRecords;
     private Button mNext;
@@ -49,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
         mApiManager = ApiManager.getInstance();
 
         mCharts = (Button) findViewById(R.id.charts);
+        mLogOut = (Button) findViewById(R.id.log_out);
+
+        mLogOut.setOnClickListener(btn -> {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
 
         mCharts.setOnClickListener(btn -> {
             Intent intent = new Intent(MainActivity.this, ChartActivity.class);
@@ -56,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mGetBb = (Button) findViewById(R.id.btn_get_db);
-        mResult = (TextView) findViewById(R.id.result);
 //        mStartService = (Button) findViewById(R.id.btn_start_service);
 //        mGetRecords = (Button) findViewById(R.id.btn_get_records);
 //        mNext = (Button) findViewById(R.id.btn_next);
@@ -89,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                             .append("STATUS = ").append(cursor.getInt(status)).append("\n");
                 } while (cursor.moveToNext());
 
-                mResult.setText(builder.toString());
+                System.out.println(builder.toString());
             } else {
                 Toast.makeText(this, "no data", Toast.LENGTH_SHORT).show();
             }
@@ -110,6 +117,23 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_action , menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.mybutton) {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

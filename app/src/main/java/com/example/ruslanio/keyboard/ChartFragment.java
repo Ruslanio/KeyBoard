@@ -131,7 +131,14 @@ public class ChartFragment extends Fragment {
                 //06.12 12.01
                 DateManager.DateObject dateObject = DateManager.parseDate(result.getDate());
                 StringBuilder builder = new StringBuilder();
-                builder.append(dateObject.getHour()).append(":").append(dateObject.getMinute());
+                String min;
+                int minute = dateObject.getMinute();
+                if (minute < 10)
+                    min = "0" + minute;
+                else
+                    min = String.valueOf(minute);
+
+                builder.append(dateObject.getHour()).append(":").append(min);
                 axisValueX.setLabel(builder.toString());
 
                 axisValuesX.add(axisValueX);
@@ -160,7 +167,7 @@ public class ChartFragment extends Fragment {
             axisY.setName("value");
 
             Line line = new Line(values);
-            line.setColor(getResources().getColor(R.color.colorPrimary));
+            line.setColor(getResources().getColor(R.color.colorAccent));
             line.setFilled(true);
 
             List<Line> lines = new ArrayList<>();

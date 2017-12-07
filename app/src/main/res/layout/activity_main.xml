@@ -7,72 +7,77 @@
               android:orientation="vertical"
               tools:context="com.example.ruslanio.keyboard.MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
 
-        <ImageButton
-            android:id="@+id/settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_margin="10dp"
-            android:background="@color/transparent"
-            android:src="@drawable/ic_settings_black_24dp"/>
+
 
         <Button
+            android:visibility="invisible"
             android:id="@+id/btn_get_db"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="getdb"/>
-    </LinearLayout>
+    </RelativeLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.v7.widget.CardView
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/result"
+        <LinearLayout
+            android:padding="30dp"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </android.support.v4.widget.NestedScrollView>
+            android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/main_container"
+            <ImageView
+                android:src="@drawable/ic_account_circle"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                style="@style/Label"
+                android:gravity="center"
+                android:text="Admin"
+                android:textSize="@dimen/extra_large_text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                style="@style/Label.Secondary"
+                android:gravity="center"
+                android:text="So, how are to today, huh?"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:id="@+id/charts"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:text="check my mood!"
+        style="@style/Button"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingBottom="20dp">
+        android:layout_height="wrap_content"/>
 
-        <ImageView
-            android:id="@+id/user_avatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/username"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            android:src="@mipmap/ic_launcher_round"/>
-
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Admin"
-            android:textSize="25sp"/>
-
-        <Button
-            android:id="@+id/charts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/username"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:text="charts"/>
-    </LinearLayout>
+    <Button
+        android:id="@+id/log_out"
+        style="@style/Button.Flat"
+        android:textSize="@dimen/extra_medium_text_size"
+        android:text="Log out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 
 </LinearLayout>
