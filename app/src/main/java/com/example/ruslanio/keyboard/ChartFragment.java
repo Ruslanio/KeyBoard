@@ -95,7 +95,7 @@ public class ChartFragment extends Fragment {
             } while (cursor.moveToNext());
 
         } else {
-            Toast.makeText(getContext(), "no data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "There is no data for now", Toast.LENGTH_SHORT).show();
         }
 
 
