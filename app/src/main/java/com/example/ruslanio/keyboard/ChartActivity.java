@@ -71,18 +71,8 @@ public class ChartActivity extends AppCompatActivity {
                     db.delete(DBHelper.EMOTION_ENTITY_TABLE_NAME, null, null);
                     List<Result> results = serverResponce.getResult();
                     for (Result result : results) {
-                        double value = 0;
-                        if (result.getValue().equals("NaN")) {
-                            continue;
-                        } else {
-                            try {
-                                value = Double.valueOf(result.getValue());
-                            } catch (Exception e){
-                                e.printStackTrace();
-                            }
-                        }
                         ContentValues cv = new ContentValues();
-                        cv.put(DBHelper.EmotionEntityTable.EMOTION_VALUE, value);
+                        cv.put(DBHelper.EmotionEntityTable.EMOTION_VALUE, result.getValue());
                         cv.put(DBHelper.EmotionEntityTable.EMOTION_DATE, result.getDate());
                         db.insert(DBHelper.EMOTION_ENTITY_TABLE_NAME, null, cv);
                     }

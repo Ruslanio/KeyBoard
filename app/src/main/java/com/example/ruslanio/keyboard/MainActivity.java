@@ -52,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
         mApiManager = ApiManager.getInstance();
 
         mCharts = (Button) findViewById(R.id.charts);
-        mLogOut = (Button) findViewById(R.id.log_out);
-
-        mLogOut.setOnClickListener(btn -> {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-        });
+//        mLogOut = (Button) findViewById(R.id.log_out);
+//
+//        mLogOut.setOnClickListener(btn -> {
+//            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+//            startActivity(intent);
+//        });
 
         mCharts.setOnClickListener(btn -> {
             Intent intent = new Intent(MainActivity.this, ChartActivity.class);

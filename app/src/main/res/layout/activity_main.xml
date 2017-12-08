@@ -70,13 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <Button
-        android:id="@+id/log_out"
-        style="@style/Button.Flat"
-        android:textSize="@dimen/extra_medium_text_size"
-        android:text="Log out"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+
 
 
 </LinearLayout>

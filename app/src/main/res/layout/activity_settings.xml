@@ -5,8 +5,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.ruslanio.keyboard.SettingsActivity">
 
+    <TextView
+        style="@style/Label.Accent"
+        android:layout_marginLeft="10dp"
+        android:text="Settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <include layout="@layout/strip"/>
+
+    <LinearLayout
+        android:layout_marginLeft="@dimen/large_margin"
+        android:paddingTop="@dimen/medium_padding"
+        android:paddingBottom="@dimen/medium_padding"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/Label.Secondary"
+            android:text="Keyboard sound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Switch
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <include layout="@layout/strip"/>
+
+    <TextView
+        android:layout_marginTop="@dimen/medium_margin"
+        android:layout_marginBottom="@dimen/medium_margin"
+        android:layout_marginLeft="@dimen/large_margin"
+        style="@style/Label.Secondary"
+        android:text="Clear cache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <include layout="@layout/strip"/>
+
+    <Button
+        android:id="@+id/btn_log_out"
+        android:layout_marginTop="@dimen/medium_margin"
+        style="@style/Button.Flat"
+        android:text="Log out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 
 </LinearLayout>
